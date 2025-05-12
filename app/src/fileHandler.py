@@ -233,9 +233,8 @@ def generateSpreadsheet(filename, sheetnames):
     for name in sheetnames:
         ws = wb.create_sheet(title=name)
         ws.append(headers)
-        for col_idx in range(1, ws.max_column + 1):
-            column_letter = get_column_letter(col_idx)
-            ws.column_dimensions[column_letter].width = 20  # Set your desired width
+        for column, width in column_widths.items():
+            ws.column_dimensions[column].width = width
 
     wb.save(filepath)
     
