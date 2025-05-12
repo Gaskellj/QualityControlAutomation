@@ -118,9 +118,17 @@ def set_field_format(ws, column_name, column_index):
              cell.alignment = Alignment(horizontal='right')
              cell.number_format = "YYYY-MM-DD"
 
-# Test this
-# Can we call row highlighter from this method?
-# ^^ Shouldn't do it this way because sheet not written to for spreadsheetChecks only PreliminaryQC
+
+"""Writes the edited excelfile over the original version
+    Resets the original colors of the spreadsheet based on current error/fail colors
+    and the cached colors saved to file. Sets the date format to the requires ISO 
+    for upload to ARCHES
+Args:
+    ExcelFile: the current file after all QC changes were made
+Returns:
+    True: if the save is completed
+    False: if the file is open in editor so the user can be made aware with an error message
+"""
 def write_excelfile(ExcelFile):
     wb = openpyxl.load_workbook(ExcelFile.filePath)
 
@@ -169,6 +177,10 @@ def extract_ext(filename):
     else:
         return False
 
+"""Simple Tkinter window opened if the file already exists
+    Asks the user if they would like to overwrite
+    Returns the choice which causes the spreadsheet creation to proceed or cancel
+"""
 def ask_yes_cancel(title="Confirm", message="This file already exists. Would you like to overwrite?"):
     """Simple """
     root = tk.Tk()
@@ -177,6 +189,11 @@ def ask_yes_cancel(title="Confirm", message="This file already exists. Would you
     root.destroy()
     return result
 
+"""Creates a spreadsheet based on the template at Union College
+    Adds as many sheets as requested by the user with their respective names
+    Adds the fields currently used for digitization as headers
+    Resizes the columns to improve readability
+"""
 def generateSpreadsheet(filename, sheetnames):
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 
@@ -207,9 +224,9 @@ def generateSpreadsheet(filename, sheetnames):
                'QC Pass/Fail', 'QC Initials', 'QC Comments']
     
     column_widths = {
-        'A': 22, 'B': 15, 'C': 27, 'D': 32, 'E': 32, 'F': 35, 'G': 37,
-        'H': 14, 'I': 40, 'J': 23, 'K': 25, 'L': 23, 'M': 17, 'N': 23,
-        'O': 23, 'P': 23, 'Q': 23, 'R': 23
+        'A': 12, 'B': 12, 'C': 12, 'D': 12, 'E': 12, 'F': 28, 'G': 12, 'H': 70, 'I': 30, 'J': 12, 'K': 22, 'L': 15, 'M': 27, 'N': 32, 'O': 32, 'P': 35, 'Q': 37,
+        'R': 14, 'S': 40, 'T': 23, 'U': 25, 'V': 23, 'W': 17, 'X': 23,
+        'Y': 23, 'Z': 23, 'AA': 23
     }
 
     for name in sheetnames:
