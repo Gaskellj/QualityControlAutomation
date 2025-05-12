@@ -1,6 +1,6 @@
 # Quality Control Automation Program
 
-This is the current working version of the Quality Control Program designed to fit into Schaffer Library's digitization workflow.
+This is the current working version of the Quality Control Program designed to fit into Schaffer Library's digitization workflow. if you're interested in how this project was created and how it has evolved over time please see our article: [Quality Control Automation for Student Driven Digitization Workflows](https://journal.code4lib.org/articles/18340)
 
 ## Setup
 
