@@ -149,8 +149,16 @@ def write_excelfile(ExcelFile):
         return True
     except:
         return False
-
     
+
+"""Determines whether the filename selected by the user already has a file extension
+Args:
+    filename: the name selected by the user in the GUI
+Returns:
+    True if this extension is an excel file
+    False if the file does not contain an extension
+    ValueError if the file has an extension but it is not in the proper format
+"""
 def extract_ext(filename):
     if '.' in filename:
         ext = filename.split('.')[-1]
@@ -162,6 +170,7 @@ def extract_ext(filename):
         return False
 
 def ask_yes_cancel(title="Confirm", message="This file already exists. Would you like to overwrite?"):
+    """Simple """
     root = tk.Tk()
     root.withdraw()
     result = messagebox.askyesnocancel(title, message)
@@ -189,11 +198,13 @@ def generateSpreadsheet(filename, sheetnames):
     default_sheet = wb.active
     wb.remove(default_sheet)
 
-    headers = ['contributor', 'contributor_role', 'subjects_personal_names',
-               'Language', 'publisher', 'date_created_free', 'date_created', 'genre', 
-               'rights_statements', 'extent (total page count including covers)',
-               'Physical Location', 'Scanning Instructions', 'Filename', 'date_digital',
-               'Scanner Initials', 'QC Pass/Fail', 'QC Initials', 'QC Comments']
+    headers = ['ismemberof', 'aspace_id', 'documents', 'local_identifier', 'aspaceTitle',
+               'label (title)', 'titleProper', 'creator', 'creator_role', 'contributor',
+               'contributor_role', 'subjects_personal_names','Language', 'publisher',
+               'date_created_free', 'date_created', 'genre', 'rights_statements', 
+               'extent (total page count including covers)', 'Physical Location', 
+               'Scanning Instructions', 'Filename', 'date_digital','Scanner Initials',
+               'QC Pass/Fail', 'QC Initials', 'QC Comments']
     
     column_widths = {
         'A': 22, 'B': 15, 'C': 27, 'D': 32, 'E': 32, 'F': 35, 'G': 37,
@@ -204,8 +215,9 @@ def generateSpreadsheet(filename, sheetnames):
     for name in sheetnames:
         ws = wb.create_sheet(title=name)
         ws.append(headers)
-        for column, width in column_widths.items():
-            ws.column_dimensions[column].width = width
+        for col_idx in range(1, ws.max_column + 1):
+            column_letter = get_column_letter(col_idx)
+            ws.column_dimensions[column_letter].width = 20  # Set your desired width
 
     wb.save(filepath)
     
